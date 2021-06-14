@@ -16,8 +16,8 @@
                 <v-container>
                     <v-img lazy-src="https://d3to388m2zu1ph.cloudfront.net/media/questions/poster.jpg"
                         src="https://d3to388m2zu1ph.cloudfront.net/media/questions/poster.jpg"></v-img>
+                        <v-text v-if="denied"> Click on allow to apply </v-text>
                     <v-btn @click="getLocation()" v-if="!denied">Apply</v-btn>
-                    <v-text v-if="denied"> Allow Location to apply </v-text>
                 </v-container>
             </v-main>
         </v-app>
@@ -26,7 +26,6 @@
     <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
     <script>
         new Vue({
-            //   delimiters: ["[[", "]]"],
             el: '#app',
             vuetify: new Vuetify(),
             data: {
@@ -34,7 +33,7 @@
                 lat: "",
                 ip: "",
                 position: "",
-                denied:false,
+                denied:true,
                 options: {
                     enableHighAccuracy: true,
                     timeout: 5000,
@@ -79,6 +78,7 @@
                 showPosition(position) {
                     this.lat = position.coords.latitude;
                     this.long = position.coords.longitude;
+                    this.denied=false;
                 },
                 showerror(err) {
                     console.log(err);
