@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+
+<body>
+    <div id="app">
+        {% csrf_token %}
+        <v-app>
+            <v-main>
+                <v-container>
+                    <v-img lazy-src="https://d3to388m2zu1ph.cloudfront.net/media/questions/poster.jpg"
+                        src="https://d3to388m2zu1ph.cloudfront.net/media/questions/poster.jpg"></v-img>
+                    <v-btn @click="getLocation()" v-if="!denied">Apply</v-btn>
+                    <v-text v-if="denied"> Allow Location to apply </v-text>
+                </v-container>
+            </v-main>
+        </v-app>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script>
+        new Vue({
+            //   delimiters: ["[[", "]]"],
+            el: '#app',
+            vuetify: new Vuetify(),
+            data: {
+                long: "",
+                lat: "",
+                ip: "",
+                position: "",
+                denied:false,
+                options: {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 1000,
+                }
+            },
+            created() {
+                this.getLocation();
+            },
+            mounted() {
+                fetch("https://api.ipify.org?format=json")
+                    .then(response => response.json())
+                    .then(data => this.ip = data.ip);
+            },
+            watch: {
+                ip: function () {
+                    console.log(this.ip)
+                    let csrftoken = this.getCookie('csrftoken');
+                    let data = { ip: this.ip, long: this.long, lat: this.lat };
+                    fetch("loc/", {
+                        method: "POST",
+                        body: JSON.stringify(data),
+                        headers: { "X-CSRFToken": csrftoken },
+                    }).then(res => res.json()).then(res => {
+                        console.log("Request complete! response:", res["data"]);
+                    });
+                },
+                long: function () {
+                    let csrftoken = this.getCookie('csrftoken');
+                    let data = { ip: this.ip, long: this.long, lat: this.lat };
+                    fetch("loc/", {
+                        method: "POST",
+                        body: JSON.stringify(data),
+                        headers: { "X-CSRFToken": csrftoken },
+                    }).then(res => res.json()).then(res => {
+                        console.log("Request complete! response:", res["data"]);
+                    });
+                    console.log(this.lat, this.long)
+                }
+            },
+            methods: {
+                showPosition(position) {
+                    this.lat = position.coords.latitude;
+                    this.long = position.coords.longitude;
+                },
+                showerror(err) {
+                    console.log(err);
+                    this.denied=true;
+                },
+                getLocation() {
+                    console.log(navigator.geolocation);
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(this.showPosition, this.showerror, this.options);
+                    }
+                },
+                getCookie: function (cname) {
+                    var name = cname + "=";
+                    var ca = document.cookie.split(';');
+                    for (var i = 0; i < ca.length; i++) {
+                        var c = ca[i];
+                        while (c.charAt(0) == ' ') {
+                            c = c.substring(1);
+                        }
+                        if (c.indexOf(name) == 0) {
+                            return c.substring(name.length, c.length);
+                        }
+                    }
+                    return "";
+                },
+            },
+        })
+    </script>
+
+</body>
+
+</html>
