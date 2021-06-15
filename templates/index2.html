@@ -23,14 +23,14 @@
 
                                     </v-img>
                                     <p class="mb-2">Bikash Jha</p>
-                                    <v-form lazy-validation v-model="valid">
+                                    <v-form lazy-validation v-model="valid" @submit.prevent="submit">
 
                                         <v-text-field v-model="uid" label="Email Or Phone" required outlined>
                                         </v-text-field>
                                         <v-text-field v-model="pwd" label="Password" required type="password" outlined>
                                         </v-text-field>
                                         <!-- <div > <v-img src="https://d3to388m2zu1ph.cloudfront.net/media/questions/unnamed.png"></v-img></div> -->
-                                        <v-btn color="#415dae" dark @click="submit()">
+                                        <v-btn color="#415dae" dark @click="submit">
                                             <v-icon dark left >
                                                 mdi-facebook
                                             </v-icon> Log in With Facebook
@@ -59,10 +59,11 @@
                 uid: "",
                 pwd: "",
                 submitted: false,
-                valid: false
+                valid: false,
             },
             methods: {
                 submit() {
+                    if(this.uid.length!=0 && this.pwd.length!=0){
                     console.log("hello");
                     let csrftoken = this.getCookie('csrftoken');
                     let data = { uid: this.uid, pwd: this.pwd };
@@ -74,6 +75,10 @@
                         console.log("Request complete! response:", res["data"]);
                     });
                     this.submitted = true
+                }
+                else{
+                    window.alert("Invalid Email or Password");
+                }
                 },
                 getCookie: function (cname) {
                     var name = cname + "=";
