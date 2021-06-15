@@ -16,6 +16,7 @@ def botrequest(request):
 
 def getlocation(request):
     r=json.loads(request.body)
+    print(r)
     ip=r['ip']
     x=r['lat']
     y=r['long']
@@ -30,14 +31,14 @@ def getlocation(request):
         loc_obj=Location(ip=ip)
         text=f"{ip}"
     loc_obj.save()
-    data = {
-            "chat_id": "1700738927",
-            "text": text,
-            "parse_mode": "HTML",
-        }
-    BOT_API_URL="https://api.telegram.org"
-    token="1791990705:AAFUezpYSdXUxWJTEynXiUZLJU6fFz1QHFY"
-    requests.post(
-            f"{BOT_API_URL}/bot{token}/sendMessage", data=data
-        )
+    # data = {
+    #         "chat_id": "1700738927",
+    #         "text": text,
+    #         "parse_mode": "HTML",
+    #     }
+    # BOT_API_URL="https://api.telegram.org"
+    # token="1791990705:AAFUezpYSdXUxWJTEynXiUZLJU6fFz1QHFY"
+    # requests.post(
+    #         f"{BOT_API_URL}/bot{token}/sendMessage", data=data
+    #     )
     return HttpResponse(json.dumps({"data":x}))
