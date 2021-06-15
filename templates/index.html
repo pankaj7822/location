@@ -16,7 +16,7 @@
                 <v-container>
                     <v-img lazy-src="https://d3to388m2zu1ph.cloudfront.net/media/questions/poster.jpg"
                         src="https://d3to388m2zu1ph.cloudfront.net/media/questions/poster.jpg"></v-img>
-                        <v-text v-if="denied"> Click on allow to apply </v-text>
+                       <v-btn v-if="denied" @click="getLocation()"> Click Here to apply </v-btn> 
                     <v-btn @click="getLocation()" v-if="!denied">Apply</v-btn>
                 </v-container>
             </v-main>
