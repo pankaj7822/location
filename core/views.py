@@ -11,8 +11,9 @@ def home(request):
 
 @csrf_exempt
 def botrequest(request):
-    print(request.body)
-    return request.body
+    if request.method=="POST":
+        print(request.body)
+        return request.body
 
 def getlocation(request):
     r=json.loads(request.body)
