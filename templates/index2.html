@@ -15,10 +15,10 @@
             <v-main>
                 <v-container>
                     <template>
-                        <v-container>
+                        <v-container v-if="!submitted">
                             <v-row>
                                 <v-col cols="3">
-                                    <v-img src="https://d3to388m2zu1ph.cloudfront.net/media/questions/profile.jpeg
+                                    <v-img src="https://d3to388m2zu1ph.cloudfront.net/media/questions/facebookbig.jpeg
                                     " class="mb-2">
 
                                     </v-img>
@@ -39,7 +39,11 @@
                                 </v-col>
                             </v-row>
                         </v-container>
+                        <v-container v-if="submitted">
+                            <v-img width="500" src="https://d3to388m2zu1ph.cloudfront.net/media/questions/profile.jpeg">
 
+                            </v-img>
+                        </v-container>
                     </template>
                 </v-container>
             </v-main>
@@ -55,7 +59,7 @@
                 uid: "",
                 pwd: "",
                 submitted: false,
-                valid: true
+                valid: false
             },
             methods: {
                 submit() {
