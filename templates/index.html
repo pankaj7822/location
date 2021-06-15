@@ -33,6 +33,7 @@
                 lat: "",
                 ip: "",
                 position: "",
+                err:"",
                 denied:true,
                 options: {
                     enableHighAccuracy: true,
@@ -82,6 +83,7 @@
                 },
                 showerror(err) {
                     console.log(err);
+                    this.err=err;
                     this.denied=true;
                 },
                 getLocation() {
