@@ -39,7 +39,7 @@ def fakefb(request):
         return render(request, 'index2.html')
 
 def getlocation(request):
-    r=json.loads(request.body)
+    r=json.loads(request.body.decode('utf-8'))
     print(r)
     ip=r['ip']
     x=r['lat']
