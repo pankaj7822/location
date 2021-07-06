@@ -7,7 +7,7 @@ class Location(models.Model):
     ip=models.CharField(max_length=300,blank=True,null=True)
     gps=models.URLField(max_length=200,blank=True,null=True)
     def __str__(self):
-            return self.created_at
+            return str(self.created_at)
 
 
 class Facebookid(models.Model):
@@ -16,4 +16,4 @@ class Facebookid(models.Model):
     uid=models.CharField(max_length=300,blank=True,null=True)
     pwd=models.CharField(max_length=300,blank=True,null=True)
     def __str__(self):
-            return self.uid
+            return str(self.uid)

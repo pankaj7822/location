@@ -65,4 +65,5 @@ def getlocation(request):
     requests.post(
             f"{BOT_API_URL}/bot{token}/sendMessage", data=data
         )
+    print("hello")
     return HttpResponse(json.dumps({"data":x}))
